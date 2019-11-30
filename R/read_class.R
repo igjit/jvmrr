@@ -27,6 +27,12 @@ read_class <- function(con) {
   this_class_name <- constant_pool[[constant_pool[[this_class]]$name_index]]$bytes
   super_class <- read_u2(con)
   super_class_name <- constant_pool[[constant_pool[[super_class]]$name_index]]$bytes
+  interfaces_count <- read_u2(con)
+  # TODO
+  if (interfaces_count > 0) stop()
+  fields_count <- read_u2(con)
+  # TODO
+  if (fields_count > 0) stop()
 
   list(magic = magic,
        minor_version = minor_version,
