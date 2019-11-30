@@ -22,11 +22,21 @@ read_class <- function(con) {
   major_version <- read_u2(con)
   constant_pool_count <- read_u2(con)
   constant_pool <- replicate(constant_pool_count - 1, read_cp_info(con), simplify = FALSE)
+  access_flags <- read_u2(con)
+  this_class <- read_u2(con)
+  this_class_name <- constant_pool[[constant_pool[[this_class]]$name_index]]$bytes
+  super_class <- read_u2(con)
+  super_class_name <- constant_pool[[constant_pool[[super_class]]$name_index]]$bytes
 
   list(magic = magic,
        minor_version = minor_version,
        major_version = major_version,
-       constant_pool = constant_pool)
+       constant_pool = constant_pool,
+       access_flags = access_flags,
+       this_class = this_class,
+       this_class_name = this_class_name,
+       super_class = super_class,
+       super_class_name = super_class_name)
 }
 
 read_u1 <- function(con) readBin(con, "integer", 1, 1, FALSE, "big")
