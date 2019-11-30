@@ -1,3 +1,7 @@
+name_lookup <- function(v) {
+  function(x) names(which(v == x))
+}
+
 read_class <- function(con) {
   if (is.character(con)) {
     con <- file(con, "rb")
