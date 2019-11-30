@@ -1,0 +1,7 @@
+version: "3"
+services:
+  jdk:
+    image: openjdk:11-slim
+    volumes:
+      - .:/opt/work
+    working_dir: /opt/work
