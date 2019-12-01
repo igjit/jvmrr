@@ -35,6 +35,8 @@ read_class <- function(con) {
   if (fields_count > 0) stop()
   methods_count <- read_u2(con)
   methods <- replicate(methods_count, read_method_info(con, constant_pool), simplify = FALSE)
+  attributes_count <- read_u2(con)
+  attributes <- replicate(attributes_count, read_attribute(con, constant_pool), simplify = FALSE)
 
   list(magic = magic,
        minor_version = minor_version,
@@ -45,7 +47,8 @@ read_class <- function(con) {
        this_class_name = this_class_name,
        super_class = super_class,
        super_class_name = super_class_name,
-       methods = methods)
+       methods = methods,
+       attributes = attributes)
 }
 
 read_u1 <- function(con) readBin(con, "integer", 1, 1, FALSE, "big")
