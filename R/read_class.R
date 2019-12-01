@@ -33,6 +33,8 @@ read_class <- function(con) {
   fields_count <- read_u2(con)
   # TODO
   if (fields_count > 0) stop()
+  methods_count <- read_u2(con)
+  methods <- replicate(methods_count, read_method_info(con, constant_pool), simplify = FALSE)
 
   list(magic = magic,
        minor_version = minor_version,
@@ -42,12 +44,19 @@ read_class <- function(con) {
        this_class = this_class,
        this_class_name = this_class_name,
        super_class = super_class,
-       super_class_name = super_class_name)
+       super_class_name = super_class_name,
+       methods = methods)
 }
 
 read_u1 <- function(con) readBin(con, "integer", 1, 1, FALSE, "big")
 
 read_u2 <- function(con) readBin(con, "integer", 1, 2, FALSE, "big")
+
+read_u4 <- function(con) {
+  u2_1 <- read_u2(con)
+  u2_2 <- read_u2(con)
+  bitwShiftL(u2_1, 16) + u2_2
+}
 
 read_cp_info <- function(con) {
   tag <- read_u1(con)
@@ -66,4 +75,74 @@ read_cp_info <- function(con) {
                                              descriptor_index = read_u2(con)))
 
   c(tag = tag, info)
+}
+
+read_method_info <- function(con, constant_pool) {
+  access_flags <- read_u2(con)
+  name_index <- read_u2(con)
+  name <- constant_pool[[name_index]]$bytes
+  descriptor_index <- read_u2(con)
+  descriptor <- constant_pool[[descriptor_index]]$bytes
+  attributes_count <- read_u2(con)
+  attributes <- replicate(attributes_count, read_attribute(con, constant_pool), simplify = FALSE)
+  list(access_flags = access_flags,
+       name_index = name_index,
+       name = name,
+       descriptor_index = descriptor_index,
+       descriptor = descriptor,
+       attributes_count = attributes_count,
+       attributes = attributes)
+}
+
+read_attribute <- function(con, constant_pool) {
+  attribute_name_index <- read_u2(con)
+  attribute_length <- read_u4(con)
+  attribute_name <- constant_pool[[attribute_name_index]]$bytes
+  switch(attribute_name,
+         Code = {
+           max_stack <- read_u2(con)
+           max_locals <- read_u2(con)
+           code_length <- read_u4(con)
+           code <- readBin(con, "integer", code_length, 1, FALSE, "big")
+           exception_table_length <- read_u2(con)
+           # TODO
+           if (exception_table_length > 0) stop()
+           exception_table <- list()
+           attributes_count <- read_u2(con)
+           attributes <- replicate(attributes_count, read_attribute(con, constant_pool), simplify = FALSE)
+           list(attribute_name_index = attribute_name_index,
+                attribute_name = attribute_name,
+                attribute_length = attribute_length,
+                max_stack = max_stack,
+                max_locals = max_locals,
+                code_length = code_length,
+                code = code,
+                exception_table_length = exception_table_length,
+                exception_table = exception_table,
+                attributes_count = attributes_count,
+                attributes = attributes)
+         },
+         LineNumberTable = {
+           line_number_table_length <- read_u2(con)
+           line_number_table <- replicate(line_number_table_length,
+                                          list(start_pc = read_u2(con),
+                                               line_number = read_u2(con)),
+                                          simplify = FALSE)
+           list(attribute_name_index = attribute_name_index,
+                attribute_name = attribute_name,
+                attribute_length = attribute_length,
+                line_number_table_length = line_number_table_length,
+                line_number_table = line_number_table)
+         },
+         StackMapTable = {
+           # TODO: parse stack_map_frame
+           readBin(con, "integer", attribute_length, 1, FALSE, "big")
+           list(attribute_name_index = attribute_name_index,
+                attribute_name = attribute_name,
+                attribute_length = attribute_length)
+         },
+         SourceFile = list(attribute_name_index = attribute_name_index,
+                           attribute_name = attribute_name,
+                           sourcefile_index = read_u2(con)),
+         stop("Not implemented: ", attribute_name))
 }
