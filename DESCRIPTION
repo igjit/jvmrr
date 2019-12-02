@@ -16,4 +16,5 @@ Suggests:
 RoxygenNote: 6.1.1
 Collate: 
     'utils.R'
+    'instruction.R'
     'read_class.R'
