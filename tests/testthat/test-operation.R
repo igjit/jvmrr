@@ -10,3 +10,9 @@ test_that("read_operation works", {
   expect_equal(op, operation(178, c(0, 2)))
   expect_equal(env$pc, 6)
 })
+
+test_that("execute works", {
+  file <- system.file("java/Hello.class", package = "jvmrr")
+  class <- read_class(file)
+  expect_output(execute(class), "Hello, world.")
+})

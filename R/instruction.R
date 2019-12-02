@@ -11,7 +11,9 @@ instruction <- function(name, opcode, arity) {
 }
 
 instruction_set <- list(instruction("ldc", 18, 1),
-                        instruction("getstatic", 178, 2))
+                        instruction("return", 177, 0),
+                        instruction("getstatic", 178, 2),
+                        instruction("invokevirtual", 182, 2))
 
 instruction_set_name <- instruction_set %>%
   map_chr(~ .$name)
