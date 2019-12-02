@@ -1,3 +1,6 @@
 name_lookup <- function(v) {
-  function(x) names(which(v == x))
+  function(x) {
+    name <- names(which(v == x))
+    if (length(name) > 0) name
+  }
 }
