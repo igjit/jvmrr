@@ -1,7 +1,3 @@
-name_lookup <- function(v) {
-  function(x) names(which(v == x))
-}
-
 cp_tags <- c(CONSTANT_Utf8 = 1,
              CONSTANT_Class = 7,
              CONSTANT_String = 8,
@@ -11,6 +7,7 @@ cp_tags <- c(CONSTANT_Utf8 = 1,
 
 cp_tag_name_of <- name_lookup(cp_tags)
 
+#' @include utils.R
 read_class <- function(con) {
   if (is.character(con)) {
     con <- file(con, "rb")
