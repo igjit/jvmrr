@@ -85,4 +85,12 @@ test_that("execute works", {
   file <- system.file("java/Arith.class", package = "jvmrr")
   class <- read_class(file)
   expect_output(execute(class), "42")
+
+  file <- system.file("java/FizzBuzz.class", package = "jvmrr")
+  class <- read_class(file)
+  i <- 1:20
+  fizzbuzz <- ifelse(i %% 15 == 0 , "FizzBuzz",
+              ifelse(i %% 3 == 0, "Fizz",
+              ifelse(i %% 5 == 0, "Buzz", i)))
+  expect_output(execute(class), paste(fizzbuzz, collapse = "\n"))
 })
