@@ -18,7 +18,8 @@ instruction_set <- list(instruction("bipush", 16, 1),
 
 instruction_set <- c(instruction_set,
                      map2(paste0("iconst_", c("m1", 0:5)), 2:8, ~ instruction(.x, .y, 0)),
-                     map2(paste0("istore_", 0:3), 59:62, ~ instruction(.x, .y, 0)))
+                     map2(paste0("istore_", 0:3), 59:62, ~ instruction(.x, .y, 0)),
+                     map2(paste0("iload_", 0:3), 26:29, ~ instruction(.x, .y, 0)))
 
 instruction_set_name <- instruction_set %>%
   map_chr(~ .$name)

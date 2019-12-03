@@ -59,7 +59,10 @@ names(iconst_i) <- paste0("iconst_", c("m1", 0:5))
 istore_n <- map(0:3, ~ function(op, constant_pool, env) env$frame[[.]] <- pop(env$stack))
 names(istore_n) <- paste0("istore_", 0:3)
 
-dispatch_table <- c(dispatch_table, iconst_i, istore_n)
+iload_n <- map(0:3, ~ function(op, constant_pool, env) push(env$stack, env$frame[[.]]))
+names(iload_n) <- paste0("iload_", 0:3)
+
+dispatch_table <- c(dispatch_table, iconst_i, istore_n, iload_n)
 
 operation <- function(opcode, operands) {
   structure(list(opcode = opcode, operands = operands), class = "operation")
