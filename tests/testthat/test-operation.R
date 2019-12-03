@@ -18,6 +18,13 @@ test_that("iconst_<i> works", {
   expect_equal(as.list(env$stack), list(2))
 })
 
+test_that("istore_<n> works", {
+  env <- rlang::env(pc = 1, stack = as.stack(2), frame = list())
+  op <- read_operation(opcodes["istore_1"], env)
+  execute_operation(op, NULL, env)
+  expect_equal(env$frame, list(2))
+})
+
 test_that("execute works", {
   file <- system.file("java/Hello.class", package = "jvmrr")
   class <- read_class(file)
