@@ -32,6 +32,13 @@ test_that("iload_<n> works", {
   expect_equal(as.list(env$stack), list(2))
 })
 
+test_that("isub works", {
+  env <- rlang::env(pc = 1, stack = as.stack(list(4, 10)), frame = list())
+  op <- read_operation(opcodes["isub"], env)
+  execute_operation(op, NULL, env)
+  expect_equal(as.list(env$stack), list(6))
+})
+
 test_that("execute works", {
   file <- system.file("java/Hello.class", package = "jvmrr")
   class <- read_class(file)

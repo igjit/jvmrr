@@ -12,6 +12,11 @@ instruction <- function(name, opcode, arity) {
 
 instruction_set <- list(instruction("bipush", 16, 1),
                         instruction("ldc", 18, 1),
+                        instruction("iadd", 96, 0),
+                        instruction("isub", 100, 0),
+                        instruction("imul", 104, 0),
+                        instruction("idiv", 108, 0),
+                        instruction("irem", 112, 0),
                         instruction("return", 177, 0),
                         instruction("getstatic", 178, 2),
                         instruction("invokevirtual", 182, 2))

@@ -62,7 +62,19 @@ names(istore_n) <- paste0("istore_", 0:3)
 iload_n <- map(0:3, ~ function(op, constant_pool, env) push(env$stack, env$frame[[.]]))
 names(iload_n) <- paste0("iload_", 0:3)
 
-dispatch_table <- c(dispatch_table, iconst_i, istore_n, iload_n)
+int_arith_op <- list(iadd = `+`,
+                     isub = `-`,
+                     imul = `*`,
+                     idiv = `%/%`,
+                     irem = `%%`)
+int_arith <- map(int_arith_op, ~ function(op, constant_pool, env) {
+  value2 <- pop(env$stack)
+  value1 <- pop(env$stack)
+  result <- .(value1, value2)
+  push(env$stack, result)
+})
+
+dispatch_table <- c(dispatch_table, iconst_i, istore_n, iload_n, int_arith)
 
 operation <- function(opcode, operands) {
   structure(list(opcode = opcode, operands = operands), class = "operation")
