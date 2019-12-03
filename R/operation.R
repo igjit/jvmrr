@@ -26,6 +26,7 @@ execute_operation <- function(op, constant_pool, env) {
 }
 
 dispatch_table <- list(
+  bipush = function (op, constant_pool, env) push(env$stack, op$operands),
   ldc = function (op, constant_pool, env) {
     index <- op$operands
     name <- constant_pool[[constant_pool[[index]]$string_index]]$bytes

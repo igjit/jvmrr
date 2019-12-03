@@ -10,7 +10,8 @@ instruction <- function(name, opcode, arity) {
   structure(list(name = name, opcode = opcode, arity = arity), class = "instruction")
 }
 
-instruction_set <- list(instruction("ldc", 18, 1),
+instruction_set <- list(instruction("bipush", 16, 1),
+                        instruction("ldc", 18, 1),
                         instruction("return", 177, 0),
                         instruction("getstatic", 178, 2),
                         instruction("invokevirtual", 182, 2))
