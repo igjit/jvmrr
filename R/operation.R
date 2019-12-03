@@ -50,6 +50,11 @@ dispatch_table <- list(
     object_name <- pop(env$stack)
     cat(args, "\n", sep = "")
   },
+  iinc = function (op, constant_pool, env) {
+    index <- op$operands[1]
+    const <- op$operands[2]
+    env$frame[[index]] <- unname(env$frame[[index]] + const)
+  },
   return = function (...) NULL
 )
 

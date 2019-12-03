@@ -17,6 +17,7 @@ instruction_set <- list(instruction("bipush", 16, 1),
                         instruction("imul", 104, 0),
                         instruction("idiv", 108, 0),
                         instruction("irem", 112, 0),
+                        instruction("iinc", 132, 2),
                         instruction("return", 177, 0),
                         instruction("getstatic", 178, 2),
                         instruction("invokevirtual", 182, 2))
