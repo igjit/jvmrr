@@ -53,6 +53,10 @@ dispatch_table <- list(
   return = function (...) NULL
 )
 
+iconst_i <- map(-1:5, ~ function(op, constant_pool, env) push(env$stack, .))
+names(iconst_i) <- paste0("iconst_", c("m1", 0:5))
+dispatch_table <- c(dispatch_table, iconst_i)
+
 operation <- function(opcode, operands) {
   structure(list(opcode = opcode, operands = operands), class = "operation")
 }

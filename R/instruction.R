@@ -16,6 +16,9 @@ instruction_set <- list(instruction("bipush", 16, 1),
                         instruction("getstatic", 178, 2),
                         instruction("invokevirtual", 182, 2))
 
+instruction_set <- c(instruction_set,
+                     map2(paste0("iconst_", c("m1", 0:5)), 2:8, ~ instruction(.x, .y, 0)))
+
 instruction_set_name <- instruction_set %>%
   map_chr(~ .$name)
 

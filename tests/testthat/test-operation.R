@@ -11,6 +11,13 @@ test_that("read_operation works", {
   expect_equal(env$pc, 6)
 })
 
+test_that("iconst_<i> works", {
+  env <- rlang::env(pc = 1, stack = stack(), frame = list())
+  op <- read_operation(opcodes["iconst_2"], env)
+  execute_operation(op, NULL, env)
+  expect_equal(as.list(env$stack), list(2))
+})
+
 test_that("execute works", {
   file <- system.file("java/Hello.class", package = "jvmrr")
   class <- read_class(file)
