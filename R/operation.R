@@ -79,7 +79,23 @@ int_arith <- map(int_arith_op, ~ function(op, constant_pool, env) {
   push(env$stack, result)
 })
 
-dispatch_table <- c(dispatch_table, iconst_i, istore_n, iload_n, int_arith)
+cond_op <- list(eq = `==`,
+                ne = `!=`,
+                lt = `<`,
+                le = `<=`,
+                gt = `>`,
+                ge = `>=`)
+
+if_icmpcond <- map(cond_op, ~ function(op, constant_pool, env) {
+  adr <- env$pc - 3
+  offset <- as_s2(op$operands[1], op$operands[2])
+  value2 <- pop(env$stack)
+  value1 <- pop(env$stack)
+  if (.(value1, value2)) env$pc <- adr + offset
+})
+names(if_icmpcond) <- paste0("if_icmp", names(cond_op))
+
+dispatch_table <- c(dispatch_table, iconst_i, istore_n, iload_n, int_arith, if_icmpcond)
 
 operation <- function(opcode, operands) {
   structure(list(opcode = opcode, operands = operands), class = "operation")
@@ -96,3 +112,8 @@ read_operation <- function(code, env) {
 }
 
 as_u2 <- function(byte1, byte2) bitwShiftL(byte1, 8) + byte2
+
+as_s2 <- function(byte1, byte2) {
+  u2 <- as_u2(byte1, byte2)
+  bitwAnd(u2, 0x7fff) - bitwAnd(u2, 0x8000)
+}
