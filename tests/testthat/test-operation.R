@@ -58,6 +58,18 @@ test_that("if_icmp<cond> works", {
   expect_equal(env$pc, 4)
 })
 
+test_that("if<cond> works", {
+  env <- rlang::env(pc = 1, stack = as.stack(0), frame = list())
+  op <- read_operation(c(opcodes["ifeq"], 0, 10), env)
+  execute_operation(op, NULL, env)
+  expect_equal(env$pc, 11)
+
+  env <- rlang::env(pc = 1, stack = as.stack(1), frame = list())
+  op <- read_operation(c(opcodes["ifeq"], 0, 10), env)
+  execute_operation(op, NULL, env)
+  expect_equal(env$pc, 4)
+})
+
 test_that("execute works", {
   file <- system.file("java/Hello.class", package = "jvmrr")
   class <- read_class(file)
