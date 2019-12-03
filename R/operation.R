@@ -55,6 +55,11 @@ dispatch_table <- list(
     const <- op$operands[2]
     env$frame[[index]] <- unname(env$frame[[index]] + const)
   },
+  goto = function (op, constant_pool, env) {
+    adr <- env$pc - 3
+    offset <- as_s2(op$operands[1], op$operands[2])
+    env$pc <- adr + offset
+  },
   return = function (...) NULL
 )
 

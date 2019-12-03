@@ -70,6 +70,13 @@ test_that("if<cond> works", {
   expect_equal(env$pc, 4)
 })
 
+test_that("goto works", {
+  env <- rlang::env(pc = 1, stack = stack(), frame = list())
+  op <- read_operation(c(NULL, opcodes["goto"], 0, 10), env)
+  execute_operation(op, NULL, env)
+  expect_equal(env$pc, 11)
+})
+
 test_that("execute works", {
   file <- system.file("java/Hello.class", package = "jvmrr")
   class <- read_class(file)

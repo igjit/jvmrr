@@ -30,6 +30,7 @@ instruction_set <- list(instruction("bipush", 16, 1),
                         instruction("if_icmpge", 162, 2),
                         instruction("if_icmpgt", 163, 2),
                         instruction("if_icmple", 164, 2),
+                        instruction("goto", 167, 2),
                         instruction("return", 177, 0),
                         instruction("getstatic", 178, 2),
                         instruction("invokevirtual", 182, 2))
