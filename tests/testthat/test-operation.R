@@ -43,4 +43,8 @@ test_that("execute works", {
   file <- system.file("java/Hello.class", package = "jvmrr")
   class <- read_class(file)
   expect_output(execute(class), "Hello, world.")
+
+  file <- system.file("java/Arith.class", package = "jvmrr")
+  class <- read_class(file)
+  expect_output(execute(class), "42")
 })
