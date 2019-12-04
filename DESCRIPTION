@@ -19,3 +19,8 @@ Collate:
     'instruction.R'
     'operation.R'
     'read_class.R'
+Imports: 
+    dequer,
+    magrittr,
+    purrr,
+    rlang
