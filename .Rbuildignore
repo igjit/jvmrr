@@ -3,3 +3,4 @@
 ^\.travis\.yml$
 ^Makefile$
 ^docker-compose\.yml$
+^codecov\.yml$
