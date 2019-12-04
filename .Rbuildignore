@@ -1,3 +1,5 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^\.travis\.yml$
+^Makefile$
+^docker-compose\.yml$
