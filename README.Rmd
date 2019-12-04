@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # jvmrr
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.org/igjit/jvmrr.svg?branch=master)](https://travis-ci.org/igjit/jvmrr)
 <!-- badges: end -->
 
 jvmrr is a toy Java VM written in R.
