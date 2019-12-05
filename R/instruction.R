@@ -50,3 +50,10 @@ opcodes <- instruction_set %>%
 names(opcodes) <- instruction_set_name
 
 opcode_name_of <- name_lookup(opcodes)
+
+with_op <- function(...) {
+  env <- rlang::env(rlang::caller_env(), !!! as.list(opcodes))
+  rlang::exprs(...) %>%
+    map(~ eval(., env)) %>%
+    flatten_dbl
+}

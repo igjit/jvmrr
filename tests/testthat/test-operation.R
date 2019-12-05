@@ -13,66 +13,66 @@ test_that("read_operation works", {
 
 test_that("iconst_<i> works", {
   env <- rlang::env(pc = 1, stack = stack(), frame = list())
-  op <- read_operation(opcodes["iconst_2"], env)
+  op <- read_operation(with_op(iconst_2), env)
   execute_operation(op, NULL, env)
   expect_equal(as.list(env$stack), list(2))
 })
 
 test_that("istore_<n> works", {
   env <- rlang::env(pc = 1, stack = as.stack(2), frame = list())
-  op <- read_operation(opcodes["istore_1"], env)
+  op <- read_operation(with_op(istore_1), env)
   execute_operation(op, NULL, env)
   expect_equal(env$frame, list(2))
 })
 
 test_that("iload_<n> works", {
   env <- rlang::env(pc = 1, stack = stack(), frame = list(2))
-  op <- read_operation(opcodes["iload_1"], env)
+  op <- read_operation(with_op(iload_1), env)
   execute_operation(op, NULL, env)
   expect_equal(as.list(env$stack), list(2))
 })
 
 test_that("isub works", {
   env <- rlang::env(pc = 1, stack = as.stack(list(4, 10)), frame = list())
-  op <- read_operation(opcodes["isub"], env)
+  op <- read_operation(with_op(isub), env)
   execute_operation(op, NULL, env)
   expect_equal(as.list(env$stack), list(6))
 })
 
 test_that("iinc works", {
   env <- rlang::env(pc = 1, stack = stack(), frame = list(10, 20))
-  op <- read_operation(c(opcodes["iinc"], 2, 4), env)
+  op <- read_operation(with_op(iinc, 2, 4), env)
   execute_operation(op, NULL, env)
   expect_equal(env$frame, list(10, 24))
 })
 
 test_that("if_icmp<cond> works", {
   env <- rlang::env(pc = 1, stack = as.stack(list(3, 2)), frame = list())
-  op <- read_operation(c(opcodes["if_icmplt"], 0, 10), env)
+  op <- read_operation(with_op(if_icmplt, 0, 10), env)
   execute_operation(op, NULL, env)
   expect_equal(env$pc, 11)
 
   env <- rlang::env(pc = 1, stack = as.stack(list(2, 3)), frame = list())
-  op <- read_operation(c(opcodes["if_icmplt"], 0, 10), env)
+  op <- read_operation(with_op(if_icmplt, 0, 10), env)
   execute_operation(op, NULL, env)
   expect_equal(env$pc, 4)
 })
 
 test_that("if<cond> works", {
   env <- rlang::env(pc = 1, stack = as.stack(0), frame = list())
-  op <- read_operation(c(opcodes["ifeq"], 0, 10), env)
+  op <- read_operation(with_op(ifeq, 0, 10), env)
   execute_operation(op, NULL, env)
   expect_equal(env$pc, 11)
 
   env <- rlang::env(pc = 1, stack = as.stack(1), frame = list())
-  op <- read_operation(c(opcodes["ifeq"], 0, 10), env)
+  op <- read_operation(with_op(ifeq, 0, 10), env)
   execute_operation(op, NULL, env)
   expect_equal(env$pc, 4)
 })
 
 test_that("goto works", {
   env <- rlang::env(pc = 1, stack = stack(), frame = list())
-  op <- read_operation(c(opcodes["goto"], 0, 10), env)
+  op <- read_operation(with_op(goto, 0, 10), env)
   execute_operation(op, NULL, env)
   expect_equal(env$pc, 11)
 })
