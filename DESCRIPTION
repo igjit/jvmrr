@@ -20,6 +20,7 @@ Collate:
     'instruction.R'
     'operation.R'
     'read_class.R'
+    'utils-pipe.R'
 Imports: 
     dequer,
     magrittr,
