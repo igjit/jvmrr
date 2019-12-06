@@ -30,3 +30,15 @@ You can install the development version of jvmrr from [GitHub](https://github.co
 # install.packages("remotes")
 remotes::install_github("igjit/jvmrr")
 ```
+
+## How to play
+
+```{r}
+library(jvmrr)
+
+jvmrr_example()
+class_file <- jvmrr_example("FizzBuzz.class")
+java_class <- read_class(class_file)
+java_class %>% head(3)
+java_class %>% execute()
+```
