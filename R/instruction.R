@@ -1,5 +1,4 @@
 #' @import purrr
-#' @importFrom magrittr %>%
 #' @include utils.R
 instruction_of <- function(opcode) {
   name <- opcode_name_of(opcode)
