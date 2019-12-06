@@ -46,7 +46,6 @@ names(instruction_set) <- instruction_set_name
 
 opcodes <- instruction_set %>%
   map_dbl(~ .$opcode)
-names(opcodes) <- instruction_set_name
 
 opcode_name_of <- name_lookup(opcodes)
 
