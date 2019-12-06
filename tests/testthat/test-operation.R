@@ -78,15 +78,15 @@ test_that("goto works", {
 })
 
 test_that("execute works", {
-  file <- system.file("java/Hello.class", package = "jvmrr")
+  file <- jvmrr_example("Hello.class")
   class <- read_class(file)
   expect_output(execute(class), "Hello, world.")
 
-  file <- system.file("java/Arith.class", package = "jvmrr")
+  file <- jvmrr_example("Arith.class")
   class <- read_class(file)
   expect_output(execute(class), "42")
 
-  file <- system.file("java/FizzBuzz.class", package = "jvmrr")
+  file <- jvmrr_example("FizzBuzz.class")
   class <- read_class(file)
   i <- 1:20
   fizzbuzz <- ifelse(i %% 15 == 0 , "FizzBuzz",
