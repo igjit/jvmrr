@@ -2,6 +2,7 @@
 
 export("%>%")
 export(execute)
+export(jvmrr_example)
 export(read_class)
 import(dequer)
 import(purrr)
