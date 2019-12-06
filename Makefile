@@ -8,6 +8,9 @@ all: $(CLASSES)
 inst/java/%.class: java/%.java
 	docker-compose run --rm -u $(USERID) jdk javac -d inst/java/ $^
 
+README.md: README.Rmd
+	docker-compose run --rm -u $(USERID) r Rscript -e 'devtools::build_readme()'
+
 clean:
 	rm -f inst/java/*.class
 

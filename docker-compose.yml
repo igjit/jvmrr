@@ -5,3 +5,8 @@ services:
     volumes:
       - .:/opt/work
     working_dir: /opt/work
+  r:
+    build: .
+    volumes:
+      - .:/opt/work
+    working_dir: /opt/work
