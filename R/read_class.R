@@ -7,7 +7,11 @@ cp_tags <- c(CONSTANT_Utf8 = 1,
 
 cp_tag_name_of <- name_lookup(cp_tags)
 
+#' Read Java class file
+#'
 #' @include utils.R
+#' @param con connection
+#' @export
 read_class <- function(con) {
   if (is.character(con)) {
     con <- file(con, "rb")

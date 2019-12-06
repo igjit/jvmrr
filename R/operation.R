@@ -1,4 +1,8 @@
+#' Execute Java class
+#'
 #' @import dequer
+#' @param class Java class
+#' @export
 execute <- function(class) {
   constant_pool <- class$constant_pool
   main_method <- class$methods %>%
