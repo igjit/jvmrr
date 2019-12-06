@@ -67,14 +67,14 @@ dispatch_table <- list(
   return = function (...) NULL
 )
 
-iconst_i <- map(-1:5, ~ function(op, constant_pool, env) push(env$stack, .))
-names(iconst_i) <- paste0("iconst_", c("m1", 0:5))
+iconst_i <- map(-1:5, ~ function(op, constant_pool, env) push(env$stack, .)) %>%
+  set_names(paste0("iconst_", c("m1", 0:5)))
 
-istore_n <- map(0:3, ~ function(op, constant_pool, env) env$frame[[.]] <- pop(env$stack))
-names(istore_n) <- paste0("istore_", 0:3)
+istore_n <- map(0:3, ~ function(op, constant_pool, env) env$frame[[.]] <- pop(env$stack)) %>%
+  set_names(paste0("istore_", 0:3))
 
-iload_n <- map(0:3, ~ function(op, constant_pool, env) push(env$stack, env$frame[[.]]))
-names(iload_n) <- paste0("iload_", 0:3)
+iload_n <- map(0:3, ~ function(op, constant_pool, env) push(env$stack, env$frame[[.]])) %>%
+  set_names(paste0("iload_", 0:3))
 
 int_arith_op <- list(iadd = `+`,
                      isub = `-`,
@@ -101,16 +101,16 @@ if_icmpcond <- map(cond_op, ~ function(op, constant_pool, env) {
   value2 <- pop(env$stack)
   value1 <- pop(env$stack)
   if (.(value1, value2)) env$pc <- adr + offset
-})
-names(if_icmpcond) <- paste0("if_icmp", names(cond_op))
+}) %>%
+  set_names(paste0("if_icmp", names(cond_op)))
 
 ifcond <- map(cond_op, ~ function(op, constant_pool, env) {
   adr <- env$pc - 3
   offset <- as_s2(op$operands[1], op$operands[2])
   value <- pop(env$stack)
   if (.(value, 0)) env$pc <- adr + offset
-})
-names(ifcond) <- paste0("if", names(cond_op))
+}) %>%
+  set_names(paste0("if", names(cond_op)))
 
 dispatch_table <- c(dispatch_table, iconst_i, istore_n, iload_n, int_arith, if_icmpcond, ifcond)
 
