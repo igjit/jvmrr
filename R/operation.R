@@ -15,7 +15,7 @@ execute <- function(class) {
 }
 
 execute_code <- function(code, constant_pool) {
-  env <- rlang::env(pc = 1, stack = stack(), frame = list())
+  env <- rlang::env(emptyenv(), pc = 1, stack = stack(), frame = list())
   while (env$pc <= length(code)) {
     op <- read_operation(code, env)
     execute_operation(op, constant_pool, env)
