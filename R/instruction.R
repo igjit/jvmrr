@@ -38,10 +38,10 @@ instruction_set <- c(instruction_set,
                      map2(paste0("iconst_", c("m1", 0:5)), 2:8, ~ instruction(.x, .y, 0)),
                      map2(paste0("istore_", 0:3), 59:62, ~ instruction(.x, .y, 0)),
                      map2(paste0("iload_", 0:3), 26:29, ~ instruction(.x, .y, 0))) %>%
-  set_names(map_chr(., ~ .$name))
+  set_names(map_chr(., "name"))
 
 opcodes <- instruction_set %>%
-  map_dbl(~ .$opcode)
+  map_dbl("opcode")
 
 opcode_name_of <- name_lookup(opcodes)
 
