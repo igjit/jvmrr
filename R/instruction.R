@@ -46,8 +46,8 @@ opcodes <- instruction_set %>%
 opcode_name_of <- name_lookup(opcodes)
 
 with_op <- function(...) {
-  env <- rlang::env(rlang::caller_env(), !!! as.list(opcodes))
-  rlang::exprs(...) %>%
-    map(~ eval(., env)) %>%
+  ops <- as.list(opcodes)
+  rlang::enquos(...) %>%
+    map(~ rlang::eval_tidy(., ops)) %>%
     flatten_dbl
 }
